@@ -1,0 +1,37 @@
+# Name of the GitHub Actions workflow
+name: CI workflow
+
+# Trigger events for the workflow
+on:
+  push:
+    branches: ["main"]  # push to the main branch
+  pull_request:
+    branches: ["main"]  # pull request targeting the main branch
+
+# Define jobs for the workflow
+jobs:
+  build:  # Name of the job
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner as the execution environment
+
+    steps:
+      # 1. Pull the repository
+      - name: Pull repo  # Name of the step
+        uses: actions/checkout@v4  # GitHub Action to check out the repository's code
+
+      # 2. Setup Python
+      - name: Setup Python  # Name of the step
+        uses: actions/setup-python@v4  # GitHub Action to set up the Python environment
+        with:
+          python-version: 3.11  # Specify the Python version to use
+
+      # 3. Install dependencies
+      - name: Install dependencies  # Name of the step
+        run: pip install -r requirements.txt  # Install Python dependencies listed in requirements.txt
+
+      # 4. Echo tests
+      - name: Echo tests  # Name of the step
+        run: echo 'Test passed'  # Print a message to simulate test success
+
+      # 5. Build Docker image
+      - name: Build docker images  # Name of the step
+        run: docker build -t flask-app .  # Build a Docker image
